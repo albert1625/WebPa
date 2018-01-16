@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="myTable>">
-	<div style='float: right'>Search: <input id='filter' type='text'><br><br></div>
+<div class="myTable">
+	<div style='float: right'>@lang('websites.search'): <input id='filter' type='text'><br><br></div>
 	<table class="footable table" data-page-navigation=".pagination" data-page-size="10" data-filter=#filter>
 		<thead>
 			<tr>
@@ -14,22 +14,22 @@
 				<th data-hide='all'>DNS</th>
 				@endif
 				@if ($privileges->view_contact)
-				<th data-hide='phone'>Contact Name</th>
-				<th data-hide='phone'>Phone</th>
-				<th data-hide='phone'>E-mail</th>
-				<th data-hide='all'>Company</th>
+				<th data-hide='phone'>@lang('websites.contactName')</th>
+				<th data-hide='phone'>@lang('websites.phone')</th>
+				<th data-hide='phone'>@lang('websites.email')</th>
+				<th data-hide='all'>@lang('websites.company')</th>
 				@endif
 				@if ($privileges->view_technical)
-				<th data-hide='phone'>DB type</th>
-				<th data-hide='phone'>DB name</th>
-				<th data-hide='all'>DB username</th>
-				<th data-hide='phone'>IP address</th>
-				<th  data-hide='all'>Server Name</th>
+				<th data-hide='all'>@lang('websites.dbType')</th>
+				<th data-hide='phone'>@lang('websites.dbName')</th>
+				<th data-hide='all'>@lang('websites.dbUsername')</th>
+				<th data-hide='phone'>@lang('websites.ipAddress')</th>
+				<th  data-hide='all'>@lang('websites.serverName')</th>
 				@endif
 				@if ($privileges->view_general)
-				<th>Status</th>
-				<th data-hide='phone'>Owner username</th>
-				<th data-hide='all'>Owner E-mail</th>
+				<th>@lang('websites.status')</th>
+				<th data-hide='phone'>@lang('websites.ownerName')</th>
+				<th data-hide='all'>@lang('websites.ownerEmail')</th>
 				@endif
 				@if (Auth::user()->privileges==2)
 				<th data-sort-ignore='true'></th>
@@ -40,7 +40,7 @@
 			@foreach ( $websites as $ws )
 			<tr>
 				@if (Auth::user()->privileges==1 || Auth::user()->privileges==2)
-				<td width='100px'><a href="websites/{{$ws['id']}}/edit" class='btn btn-default ' style='color:orange'><span class="glyphicon glyphicon-pencil"></span></a></td>
+				<td width='100px'><a href="websites/{{$ws['id']}}/edit" title="@lang('websites.edit')" class='btn btn-default ' style='color:orange'><span class="glyphicon glyphicon-pencil"></span></a></td>
 				@endif
 				<td>{{ $ws->www }}</td>
 				@if ($privileges->view_technical)
@@ -69,7 +69,7 @@
 					<form id="form-delete" method="POST" action="websites/{{$ws['id']}}">
                     	{{ method_field('DELETE') }}
                         {{ csrf_field() }}
-						<button data-toggle="confirmation" type="submit" class='btn btn-default data-delete' style='color:red'>
+						<button type="submit" title="@lang('websites.delete')" class='btn btn-default data-delete' style='color:red'>
 							<span class="glyphicon glyphicon-remove"></span>
 						</button>
 					</form>
@@ -80,7 +80,13 @@
 		</tbody>
 	</table>
 </div>
-		{{ $websites }}
+
+@if (Auth::user()->isAdmin())
+<a href="websites/create" type="button" class="btn btn-success">
+    @lang('websites.createNew')
+</a>
+@endif
+
 @endsection
 
 

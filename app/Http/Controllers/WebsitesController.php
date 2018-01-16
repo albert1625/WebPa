@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use App\Website;
 use App\Privilege;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,7 +52,7 @@ class WebsitesController extends Controller
      */
     public function create()
     {
-        //
+        return view('website_create');
     }
 
     /**
@@ -61,7 +63,45 @@ class WebsitesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $rules = $rules = array(
+            'www' => 'required|min:8|max:250',
+            'status' => 'sometimes|nullable',
+            'name' => 'sometimes|nullable',
+            'phone' => 'sometimes|nullable|numeric',
+            'email' => 'sometimes|nullable|email',
+            'company' => 'sometimes|nullable',
+            'dns' => 'sometimes|nullable',
+            'dbtype' => 'sometimes|nullable',
+            'dbname' => 'sometimes|nullable',
+            'dbusername' => 'sometimes|nullable',
+            'ipaddress' => 'sometimes|nullable',
+            'servername' => 'sometimes|nullable',
+            'owner' => 'required|email|exists:users,email',
+        );
+
+        $this->validate($request, $rules);
+
+        $website = new Website();
+
+        $website->www=$data['www'];
+        $website->status=$data['status'];
+        $website->contact_name=$data['name'];
+        $website->phone=$data['phone'];
+        $website->email=$data['email'];
+        $website->company=$data['company'];
+        $website->dns=$data['dns'];
+        $website->database_type=$data['dbtype'];
+        $website->database_name=$data['dbname'];
+        $website->database_user=$data['dbusername'];
+        $website->ip_address=$data['ipaddress'];
+        $website->server_name=$data['servername'];
+        $website->user()->associate(User::where('email', $data['owner'])->first());
+
+        $website->save();
+
+        return redirect()->action('WebsitesController@index');
     }
 
     /**

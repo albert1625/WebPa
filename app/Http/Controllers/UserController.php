@@ -2,10 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Privilege;
+use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return view('users_show', array( 'users' => User::all() ));
     }
 
     /**

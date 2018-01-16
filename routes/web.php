@@ -15,11 +15,15 @@
 //     return view('welcome');
 // });
 
+Route::get('localization/{lang?}', 'LanguageLocalizationController@index')->name('localization.index');;
+
 Route::get('/', function () {
     return redirect('/websites');
 });
 
 Route::resource('websites', 'WebsitesController');
+
+Route::resource('users', 'UserController');
 
 
 Route::resource('/registration','UserController', ['only' => ['create']]);
