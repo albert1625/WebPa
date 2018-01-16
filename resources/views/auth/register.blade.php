@@ -65,10 +65,47 @@
                             <label for="privileges" class="col-md-4 control-label">Privileges</label>
                             <div class="col-md-6">
                                 <select id="privileges" type="privileges" class="form-control" name="privileges">
-                                    <option value="1">Contact information</option>
-                                    <option value="2">Tchnical information</option>
-                                    <option value="3">Administrator</option>
+                                    <option value="0">User</option>
+                                    <option value="1">Moderator</option>
+                                    <option value="2">Administrator</option>
                                 </select> 
+                            </div>
+                        </div>
+
+                        <div id="privileges2" class="form-group">
+                            <label for="" class="col-md-4 control-label">View</label>
+                            <div class="col-md-8">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="hidden" name="view_general" value="0">
+                                        <input type="checkbox" name="view_general" value="1"> General
+                                    </label>
+                                    <label>
+                                        <input type="hidden" name="view_contact" value="0">
+                                        <input type="checkbox" name="view_contact" value="1"> Contact
+                                    </label>
+                                    <label>
+                                        <input type="hidden" name="view_technical" value="0">
+                                        <input type="checkbox" name="view_technical" value="1"> Technical
+                                    </label>
+                                </div>
+                            </div>
+                            <label for="" class="col-md-4 control-label">Edit</label>
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="hidden" name="edit_general" value="0">
+                                        <input type="checkbox" name="edit_general" value="1"> General
+                                    </label>
+                                    <label>
+                                        <input type="hidden" name="edit_contact" value="0">
+                                        <input type="checkbox" name="edit_contact" value="1"> Contact
+                                    </label>
+                                    <label>
+                                        <input type="hidden" name="edit_technical" value="0">
+                                        <input type="checkbox" name="edit_technical" value="1"> Technical
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
@@ -85,4 +122,26 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('scripts')
+<script>
+
+$(document).ready(function () { 
+    function showHide(){
+        pr = document.getElementById("privileges").value;
+        console.log(pr);
+        if (pr==1)
+            $("#privileges2").show();
+        else
+            $("#privileges2").hide();
+    };
+    showHide();
+
+    $( "#privileges" ).change(function() {
+        showHide();
+    });
+});
+</script>
 @endsection

@@ -14,7 +14,12 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- Bootstrap -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- FooTable -->
+    <link href="{{ asset('Footable/css/footable.core.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('Footable/css/footable.standalone.css') }}" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
     <div id="app">
@@ -47,8 +52,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+                            @if (Auth::user()->isAdmin())
+                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="#" role="button">User control</a></li>
+                            @endif
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -73,15 +81,23 @@
                 </div>
             </div>
         </nav>
-
-        @yield('content')
+        <div class="container">
+            @yield('content')
+        </div>
     </div>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- FooTable -->
+    <script src="{{ asset('Footable/js/footable.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('Footable/js/footable.paginate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('Footable/js/footable.sort.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('Footable/js/footable.filter.js') }}" type="text/javascript"></script>
+
+    @yield('scripts')
 </body>
 </html>

@@ -29,6 +29,14 @@ class User extends Authenticatable
 
 
     public function isAdmin() {
-        return ($this->privileges == 3);
+        return ($this->privileges == 2);
     }
+
+    public function websites() {
+        return $this->hasMany('App\Website');
+    }  
+
+    public function privilege() {
+        return $this->hasOne('App\Privilege');
+    }  
 }

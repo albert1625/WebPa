@@ -15,7 +15,12 @@
 //     return view('welcome');
 // });
 
-Route::get('/', 'HostingController@index');
+Route::get('/', function () {
+    return redirect('/websites');
+});
+
+Route::resource('websites', 'WebsitesController');
+
 
 Route::resource('/registration','UserController', ['only' => ['create']]);
 

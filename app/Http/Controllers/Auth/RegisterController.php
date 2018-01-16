@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Privilege;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -36,7 +37,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('admin');
+        $this->middleware('admin');
     }
 
     /**
@@ -62,11 +63,35 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'privileges' => $data['privileges'],
-        ]);
+
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        //'privileges' => $data['privileges'],
+        $user->privileges = $data['privileges'];
+        $user->save();
+
+        if ($data['privileges']==1){
+            $privileges = new Privilege();
+            $privileges->view_general=$data['view_general'];
+            $privileges->view_contact=$data['view_contact'];
+            $privileges->view_technical=$data['view_technical'];
+            $privileges->edit_general=$data['edit_general'];
+            $privileges->edit_contact=$data['edit_contact'];
+            $privileges->edit_technical=$data['edit_technical'];
+            $privileges->user()->associate(User::find($user->id));
+            $privileges->save();
+        }
+
+        return $user;
+
+        // return User::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'password' => bcrypt($data['password']),
+        //     //'privileges' => $data['privileges'],
+        //     'privileges' => $data['privileges'],
+        // ]);
     }
 }

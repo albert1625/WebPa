@@ -21,6 +21,7 @@
 		<tr>
 			<td>Privilēģijas:</td>
 			<td><select name="privileges">
+				<option value="0">lietotājs</option>
 				<option value="1">kontaktinformācija</option>
 				<option value="2">tehniskā informācija</option>
 				<option value="3">admin</option>
