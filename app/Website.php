@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace WebPa;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Website extends Model
 {
     public function user() {
-        return $this->belongsTo('App\User', 'owner_id');
+        return $this->belongsTo('WebPa\User', 'owner_id');
     }
 }

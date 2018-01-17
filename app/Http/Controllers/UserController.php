@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace WebPa\Http\Controllers;
 
-use App\Privilege;
-use App\User;
+use WebPa\Privilege;
+use WebPa\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -36,7 +36,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('auth/register');
     }
 
     /**
@@ -47,7 +47,37 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $data = $request->all();
+
+        $rules = $rules = array(
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        );
+
+        $this->validate($request, $rules);
+
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        $user->privileges = $data['privileges'];
+        $user->save();
+
+        if ($data['privileges']==1){
+            $privileges = new Privilege();
+            $privileges->view_general=$data['view_general'];
+            $privileges->view_contact=$data['view_contact'];
+            $privileges->view_technical=$data['view_technical'];
+            $privileges->edit_general=$data['edit_general'];
+            $privileges->edit_contact=$data['edit_contact'];
+            $privileges->edit_technical=$data['edit_technical'];
+            $privileges->user()->associate(User::find($user->id));
+            $privileges->save();
+        }
+
+        return redirect()->action('UserController@index');
     }
 
     /**
@@ -69,7 +99,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view( 'users_edit', array('user' => User::findOrFail($id), 'privileges' => Privilege::where('user_id', $id)) );
     }
 
     /**
@@ -81,7 +111,44 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $data = $request->all();
+
+        $rules = $rules = array(
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,id,'.$id,
+            'password' => 'sometimes|nullable|string|min:6|confirmed',
+        );
+
+        $this->validate($request, $rules);
+
+        $user = User::findOrFail($id);
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        if ($data['password'] <> '')
+            $user->password = bcrypt($data['password']);
+        $user->privileges = $data['privileges'];
+        $user->save();
+
+        if (Privilege::where('user_id', $id) && ($data['privileges']!=1)) //delete privileges if user is no more moderator
+                Privilege::where('user_id', $id)->delete();
+
+        if ($data['privileges']==1){
+            if (Privilege::where('user_id', $id)->first())
+                $privileges = Privilege::where('user_id', $id)->first();
+            else
+                $privileges = new Privilege();
+            $privileges->view_general=$data['view_general'];
+            $privileges->view_contact=$data['view_contact'];
+            $privileges->view_technical=$data['view_technical'];
+            $privileges->edit_general=$data['edit_general'];
+            $privileges->edit_contact=$data['edit_contact'];
+            $privileges->edit_technical=$data['edit_technical'];
+            $privileges->user()->associate(User::find($user->id));
+            $privileges->save();
+        }
+
+        return redirect()->action('UserController@index');
     }
 
     /**

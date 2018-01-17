@@ -15,19 +15,24 @@
 //     return view('welcome');
 // });
 
-Route::get('localization/{lang?}', 'LanguageLocalizationController@index')->name('localization.index');;
+Route::get('localization/{lang?}', 'LanguageLocalizationController@index')->name('localization.index');
+//language switcher
+
 
 Route::get('/', function () {
     return redirect('/websites');
 });
+
 
 Route::resource('websites', 'WebsitesController');
 
 Route::resource('users', 'UserController');
 
 
-Route::resource('/registration','UserController', ['only' => ['create']]);
 
 Auth::routes();
+//register route disabled at vendor\laravel\framework\src\Illuminate\Routing\Router.php
+//custom registration made
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+//Route::get('/home', 'HomeController@index')->name('home');

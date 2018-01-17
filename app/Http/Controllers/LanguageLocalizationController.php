@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace WebPa\Http\Controllers;
 
 use Session;
 use Illuminate\Http\Request;

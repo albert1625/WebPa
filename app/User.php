@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace WebPa;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -33,10 +33,10 @@ class User extends Authenticatable
     }
 
     public function websites() {
-        return $this->hasMany('App\Website');
+        return $this->hasMany('WebPa\Website');
     }  
 
     public function privilege() {
-        return $this->hasOne('App\Privilege');
+        return $this->hasOne('WebPa\Privilege');
     }  
 }

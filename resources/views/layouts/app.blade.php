@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'WebPa') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -37,7 +37,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'WebPa') }}
                     </a>
                 </div>
 
@@ -54,7 +54,6 @@
                             <li><a href="{{ route('login') }}">@lang('navbar.login')</a></li>
                         @else
                             @if (Auth::user()->isAdmin())
-                            <li><a href="{{ route('register') }}">@lang('navbar.register')</a></li>
                             <li><a href="{{ action('UserController@index') }}" role="button">@lang('navbar.userControl')</a></li>
                             @endif
                             <li class="dropdown">

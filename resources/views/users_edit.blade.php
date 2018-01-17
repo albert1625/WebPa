@@ -5,17 +5,18 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">@lang('auth.register')</div>
+                <div class="panel-heading">@lang('auth.edit')</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{!! action('UserController@store') !!}">
+                    <form class="form-horizontal" method="POST" action="/users/{{$user->id}}">
+                        {{ method_field('PATCH') }}
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">@lang('auth.name')</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -29,7 +30,7 @@
                             <label for="email" class="col-md-4 control-label">@lang('auth.email')</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -43,7 +44,7 @@
                             <label for="password" class="col-md-4 control-label">@lang('auth.password')</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password" type="password" class="form-control" name="password">
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -57,7 +58,7 @@
                             <label for="password-confirm" class="col-md-4 control-label">@lang('auth.confirmPassword')</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
                             </div>
                         </div>
 
@@ -65,9 +66,9 @@
                             <label for="privileges" class="col-md-4 control-label">@lang('auth.privileges')</label>
                             <div class="col-md-6">
                                 <select id="privileges" type="privileges" class="form-control" name="privileges">
-                                    <option value="0">@lang('auth.user')</option>
-                                    <option value="1">@lang('auth.moderator')</option>
-                                    <option value="2">@lang('auth.administrator')</option>
+                                    <option value="0" @if ($user->privileges==0) selected="selected" @endif>@lang('auth.user')</option>
+                                    <option value="1" @if ($user->privileges==1) selected="selected" @endif>@lang('auth.moderator')</option>
+                                    <option value="2" @if ($user->privileges==2) selected="selected" @endif>@lang('auth.administrator')</option>
                                 </select> 
                             </div>
                         </div>
@@ -78,15 +79,15 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="hidden" name="view_general" value="0">
-                                        <input type="checkbox" name="view_general" value="1"> @lang('auth.general')
+                                        <input type="checkbox" name="view_general" value="1" @if ($user->privilege['view_general']) checked @endif> @lang('auth.general')
                                     </label>
                                     <label>
                                         <input type="hidden" name="view_contact" value="0">
-                                        <input type="checkbox" name="view_contact" value="1"> @lang('auth.contact')
+                                        <input type="checkbox" name="view_contact" value="1" @if ($user->privilege['view_contact']) checked @endif> @lang('auth.contact')
                                     </label>
                                     <label>
                                         <input type="hidden" name="view_technical" value="0">
-                                        <input type="checkbox" name="view_technical" value="1"> @lang('auth.technical')
+                                        <input type="checkbox" name="view_technical" value="1" @if ($user->privilege['view_technical']) checked @endif> @lang('auth.technical')
                                     </label>
                                 </div>
                             </div>
@@ -95,15 +96,15 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="hidden" name="edit_general" value="0">
-                                        <input type="checkbox" name="edit_general" value="1"> @lang('auth.general')
+                                        <input type="checkbox" name="edit_general" value="1" @if ($user->privilege['edit_general']) checked @endif> @lang('auth.general')
                                     </label>
                                     <label>
                                         <input type="hidden" name="edit_contact" value="0">
-                                        <input type="checkbox" name="edit_contact" value="1"> @lang('auth.contact')
+                                        <input type="checkbox" name="edit_contact" value="1" @if ($user->privilege['edit_contact']) checked @endif> @lang('auth.contact')
                                     </label>
                                     <label>
                                         <input type="hidden" name="edit_technical" value="0">
-                                        <input type="checkbox" name="edit_technical" value="1"> @lang('auth.technical')
+                                        <input type="checkbox" name="edit_technical" value="1" @if ($user->privilege['edit_technical']) checked @endif> @lang('auth.technical')
                                     </label>
                                 </div>
                             </div>
@@ -112,7 +113,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    @lang('auth.register')
+                                    @lang('auth.edit')
                                 </button>
                             </div>
                         </div>

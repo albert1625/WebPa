@@ -48,7 +48,7 @@
 			@endforeach
 		</tbody>
 	</table>
-	<a href="websites/create" type="button" class="btn btn-primary">
+	<a href="users/create" type="button" class="btn btn-primary">
 	    @lang('users.registerNew')
 	</a>
 </div>

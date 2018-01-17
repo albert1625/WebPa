@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace WebPa\Http\Controllers;
 
 use Session;
-use App\Website;
-use App\Privilege;
-use App\User;
+use WebPa\Website;
+use WebPa\Privilege;
+use WebPa\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
