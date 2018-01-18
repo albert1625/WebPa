@@ -3,7 +3,7 @@
 
 <div class="myTable">
 	<div style='float: right'>@lang('websites.search'): <input id='filter' type='text'><br><br></div>
-	<table class="footable table" data-page-navigation=".pagination" data-page-size="10" data-filter=#filter>
+	<table class="footable table" data-page-navigation=".pagination" data-page-size="5" data-filter=#filter>
 		<thead>
 			<tr>
 				@if (Auth::user()->privileges==1 || Auth::user()->privileges==2)
@@ -78,6 +78,13 @@
 			</tr>
 			@endforeach
 		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="17">
+					<div class="paging" style="float: right"> <ul class="pagination"></ul> </div>
+				</td>
+			</tr>
+		</tfoot>
 	</table>
 </div>
 

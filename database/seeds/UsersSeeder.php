@@ -1,6 +1,6 @@
 <?php
 
-use App\User;
+use WebPa\User;
 use Illuminate\Database\Seeder;
 
 class UsersSeeder extends Seeder
@@ -12,7 +12,7 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-    DB::table('users')->delete();
+    //DB::table('users')->delete();
     User::create(array('name' => 'admin',
                            'email' => 'admin@test.com', 
                            'password' => bcrypt('qwerty'),

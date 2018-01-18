@@ -1,6 +1,6 @@
 <?php
 
-use App\Privilege;
+use WebPa\Privilege;
 use Illuminate\Database\Seeder;
 
 class PrivilegesSeeder extends Seeder
